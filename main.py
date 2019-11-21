@@ -5,6 +5,7 @@ from PyQt5 import QtSql, uic, QtWidgets
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QWidget, QToolTip, QPushButton, QApplication, QMessageBox, QDesktopWidget
 from PyQt5.QtGui import QIcon, QFont
+from PyQt5.uic.properties import QtGui
 from main_window import Ui_MainWindow
 
 
@@ -13,29 +14,32 @@ class MainW(QtWidgets.QMainWindow):
         super(MainW,self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.label.setText("Всего дорог:" + map(str, self.stat_db()))
 
-# def stat_db(self):
-#     # Создаем соединение с нашей базой данных
-#     conn = sqlite3.connect('db.sqlite3')
-#     # Создаем курсор - это специальный объект который делает запросы и получает их результаты
-#     cursor = conn.cursor()
-#     # Делаем SELECT запрос к базе данных, используя обычный SQL-синтаксис
-#     cursor.execute("SELECT nregion FROM main_region ORDER BY nregion LIMIT 3")
-#     # Получаем результат сделанного запроса
-#     results = cursor.fetchall()
-#
-#     # print(results)
-#
-#     # Не забываем закрыть соединение с базой данных
-#     conn.close()
-#
+
+    def stat_db(self):
+        # Создаем соединение с нашей базой данных
+        conn = sqlite3.connect('db.sqlite3')
+        # Создаем курсор - это специальный объект который делает запросы и получает их результаты
+        cursor = conn.cursor()
+        # Делаем SELECT запрос к базе данных, используя обычный SQL-синтаксис
+        #cursor.execute("SELECT nregion FROM main_region ORDER BY nregion LIMIT 3")
+        cursor.execute("SELECT count(DISTINCT nroad) as croad FROM main_road")
+        # Получаем результат сделанного запроса
+        results = cursor.fetchone()
+        print(results)
+        # Не забываем закрыть соединение с базой данных
+        conn.close()
+        return results
+
+
 # # print(stat_db())
 
 
 # точка входа
 if __name__ == '__main__':
     # Создание окна Запускается основной цикл
-    app = QtWidgets.QApplication([])
+    app = QtWidgets.QApplication(sys.argv)
     application = MainW()
     application.show()
     sys.exit(app.exec_())  # главный виджет уничтожен

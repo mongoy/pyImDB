@@ -52,4 +52,4 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Перечень автомобильных дорог"))
         self.pushButton.setText(_translate("MainWindow", "Вход"))
         self.pushButton_2.setText(_translate("MainWindow", "Выход"))
-        self.label.setText(_translate("MainWindow", "Всего дорог"))
+        self.label.setText(_translate("MainWindow", "Всего дорог:"))
