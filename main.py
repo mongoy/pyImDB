@@ -10,24 +10,30 @@ from main_window import Ui_MainWindow
 
 
 class MainW(QtWidgets.QMainWindow):
+    q_road = ("SELECT count(DISTINCT nroad) as croad FROM main_road",\
+              "SELECT count(DISTINCT nroad) as croad FROM main_road")
+
     def __init__(self):
-        super(MainW,self).__init__()
+        super(MainW, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.label.setText("Всего дорог:" + map(str, self.stat_db()))
+        for x in enumerate(self.q_road):
+            self.ui.label.setText("Всего дорог:" + str(self.stat_db(self.q_road[0])))
+        #a = self.stat_db()
+        #print(a)
+        # print(str([i[0] for i in self.stat_db()]))
 
-
-    def stat_db(self):
+    def stat_db(self,y):
         # Создаем соединение с нашей базой данных
         conn = sqlite3.connect('db.sqlite3')
         # Создаем курсор - это специальный объект который делает запросы и получает их результаты
         cursor = conn.cursor()
         # Делаем SELECT запрос к базе данных, используя обычный SQL-синтаксис
-        #cursor.execute("SELECT nregion FROM main_region ORDER BY nregion LIMIT 3")
-        cursor.execute("SELECT count(DISTINCT nroad) as croad FROM main_road")
+        # cursor.execute("SELECT nregion FROM main_region ORDER BY nregion LIMIT 3")
+        cursor.execute(str(y))
         # Получаем результат сделанного запроса
-        results = cursor.fetchone()
-        print(results)
+        results = cursor.fetchall()
+
         # Не забываем закрыть соединение с базой данных
         conn.close()
         return results
