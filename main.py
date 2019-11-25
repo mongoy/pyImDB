@@ -17,8 +17,8 @@ class MainW(QtWidgets.QMainWindow):
         super(MainW, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.label.setText("Всего дорог:" + str(self.stat_db(self.q_road[0])))
-        self.ui.label_2.setText("Протяженность (км):" + str(self.stat_db(self.q_road[1])))
+        self.ui.label.setText("Всего дорог: " + str(self.stat_db(self.q_road[0])))
+        self.ui.label_2.setText("Протяженность (км): " + str(self.stat_db(self.q_road[1])))
 
     def stat_db(self,y):
         # Создаем соединение с нашей базой данных
