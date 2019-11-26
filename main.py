@@ -1,6 +1,7 @@
 # Импортируем библиотеку, соответствующую типу нашей базы данных
 import sys
 import sqlite3
+import pyodbc
 from PyQt5 import QtSql, uic, QtWidgets
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QWidget, QToolTip, QPushButton, QApplication, QMessageBox, QDesktopWidget
@@ -18,7 +19,8 @@ class MainW(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.label.setText("Всего дорог: " + str(self.stat_db(self.q_road[0])))
-        self.ui.label_2.setText("Протяженность (км): " + str(self.stat_db(self.q_road[1])))
+        #self.ui.label_2.setText("Протяженность (км): " + str(self.stat_db(self.q_road[1])))
+        #self.ui.label_2.setText("Протяженность (км): " + str(self.stat_mssql(self)))
 
     def stat_db(self,y):
         # Создаем соединение с нашей базой данных
@@ -34,6 +36,22 @@ class MainW(QtWidgets.QMainWindow):
         # Не забываем закрыть соединение с базой данных
         conn.close()
         return results
+
+    def stat_mssql(self):
+        # Some other example server values are
+        # server = 'localhost\sqlexpress' # for a named instance
+        # server = 'myserver,port' # to specify an alternate port
+        server = 'tcp:buda'
+        database = 'LISTIM2015'
+        username = 'GKU/aantropov'
+        password = 'P2473Wl'
+        cnxn = pyodbc.connect(
+            'DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
+        cursor = cnxn.cursor()
+        print('sql')
+        return 0
+
+
 
 
 # # print(stat_db())
