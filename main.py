@@ -18,11 +18,11 @@ class MainW(QtWidgets.QMainWindow):
         super(MainW, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.label.setText("Всего дорог: " + str(self.stat_db(self.q_road[0])))
-        #self.ui.label_2.setText("Протяженность (км): " + str(self.stat_db(self.q_road[1])))
-        #self.ui.label_2.setText("Протяженность (км): " + str(self.stat_mssql(self)))
+        self.ui.label.setText("Всего дорог: " + str(self.db_sqlite(self.q_road[0])))
+        self.ui.label_2.setText("Протяженность (км): " + str(self.db_mssql(self.q_road[1])))
+        #self.ui.label_2.setText("Протяженность (км): " + str(self.db_sqlite(self)))
 
-    def stat_db(self,y):
+    def db_sqlite(self, y):
         # Создаем соединение с нашей базой данных
         conn = sqlite3.connect('db.sqlite3')
         # Создаем курсор - это специальный объект который делает запросы и получает их результаты
@@ -37,24 +37,25 @@ class MainW(QtWidgets.QMainWindow):
         conn.close()
         return results
 
-    def stat_mssql(self):
+    def db_mssql(self, y):
         # Some other example server values are
         # server = 'localhost\sqlexpress' # for a named instance
         # server = 'myserver,port' # to specify an alternate port
-        server = 'tcp:buda'
+        server = 'BUDA\SQLEXPRESS'
         database = 'LISTIM2015'
-        username = 'GKU/aantropov'
-        password = 'P2473Wl'
-        cnxn = pyodbc.connect(
-            'DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password)
+        username = 'sa'
+        password = 'IwB1966Y'
+        con_str = 'DRIVER={SQL Server Native Client 11.0}; SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password
+        cnxn = pyodbc.connect(con_str)
         cursor = cnxn.cursor()
-        print('sql')
+        #cursor.execute(str(y))
+        #print('sql')
         return 0
 
 
 
 
-# # print(stat_db())
+#print(stat_mssql())
 
 
 # точка входа
