@@ -100,8 +100,85 @@ def mig_main_list():
 
 # mig_main_list()
 
-def mig_rd_list():
+def filing_rd_list():
+    try:
+        # MSSQL
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT RDList.naim, 
+            SUM(AllGuimFull_C.bals) AS sum_bal, 
+            SUM(AllGuimFull_C.balost) AS sum_ost,
+            SUM(AllGuimFull_C.balost1) AS expr1,
+            SUM(AllGuimFull_C.amort1) AS expr2,
+            SUM(AllGuimFull_C.balost2) AS expr3,
+            SUM(AllGuimFull_C.amort2) AS expr4,
+            SUM(AllGuimFull_C.balost3) AS expr5,
+            SUM(AllGuimFull_C.amort3) AS expr6,
+            SUM(AllGuimFull_C.balost4) AS expr7,
+            SUM(AllGuimFull_C.amort4) AS expr8,
+            SUM(AllGuimFull_C.balost5) AS expr9,
+            SUM(AllGuimFull_C.amort5) AS expr10,
+            SUM(AllGuimFull_C.balost6) AS expr11,
+            SUM(AllGuimFull_C.amort6) AS expr12,
+            SUM(AllGuimFull_C.balost7) AS expr13,
+            SUM(AllGuimFull_C.amort7) AS expr14,
+            SUM(AllGuimFull_C.balost8) AS expr15,
+            SUM(AllGuimFull_C.amort8) AS expr16,
+            SUM(AllGuimFull_C.balost9) AS expr17,
+            SUM(AllGuimFull_C.amort9) AS expr18,
+            SUM(AllGuimFull_C.balost10) AS expr19,
+            SUM(AllGuimFull_C.amort10) AS expr20,
+            SUM(AllGuimFull_C.balost11) AS expr21,
+            SUM(AllGuimFull_C.amort11) AS expr22,
+            SUM(AllGuimFull_C.balost12) AS expr23,
+            SUM(AllGuimFull_C.amort12) AS expr24,
+            SUM(AllGuimFull_C.balost13) AS expr25,
+            SUM(AllGuimFull_C.amort13) AS expr26
+            FROM RDList
+            INNER JOIN AllGuimFull_C
+            ON RDList.naim = AllGuimFull_C.mobj
+            GROUP BY RDList.naim
+            ORDER BY RDList.naim
+        """)
+
+        rows = cursor.fetchall()
+        sum_bal = 0
+        for row in rows:
+            # SQLite
+            cursor2 = conn2.cursor()
+            str_q = f"UPDATE RDList SET bals = {round(row[1], 2)}, osts = {round(row[27], 2)} WHERE naim = '{row[0]}'"
+            print(str_q)
+            cursor2.execute(str_q)
+            conn2.commit()
+
+    except sqlite3.DatabaseError as err:
+        print("Error: ", err)
+    else:
+
+        conn2.close()
 
     return
 
-# mig_rd_list()
+
+# filing_rd_list()
+
+def sum_fin_list():
+    # проверка суммы балансовой и остаточной
+    try:
+        cursor2 = conn2.cursor()
+        str_q = "SELECT SUM (bals) AS sum_bal, SUM(osts) AS sum_ost FROM RDList"
+        cursor2.execute(str_q)
+        row = cursor2.fetchone()
+        if row:
+            print(row)
+
+
+    except sqlite3.DatabaseError as err:
+        print("Error: ", err)
+    else:
+        conn2.close()
+
+    return
+
+
+sum_fin_list()
