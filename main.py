@@ -11,16 +11,18 @@ from main_window import Ui_MainWindow
 
 
 class MainW(QtWidgets.QMainWindow):
-    q_road = ("SELECT count(DISTINCT nroad) as croad FROM main_road",\
-              "SELECT sum(lroad) AS sroad FROM main_road")
+    # q_road = ("SELECT count(DISTINCT nroad) as croad FROM main_road",\
+    #           "SELECT sum(lroad) AS sroad FROM main_road")
+
+    q_road = ("SELECT count(DISTINCT naim) as croad FROM RDList",\
+              "SELECT SUM(prot) AS sroad, SUM(bals) AS sum_bal, SUM(osts) AS sum_ost FROM RDList")
 
     def __init__(self):
         super(MainW, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.label.setText("Всего дорог: " + str(self.db_sqlite(self.q_road[0])))
-        self.ui.label_2.setText("Протяженность (км): " + str(self.db_mssql(self.q_road[1])))
-        #self.ui.label_2.setText("Протяженность (км): " + str(self.db_sqlite(self)))
+        self.ui.label_2.setText("Протяженность (км): " + str(self.db_sqlite(self.q_road[0])))
 
     def db_sqlite(self, y):
         # Создаем соединение с нашей базой данных
