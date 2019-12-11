@@ -202,7 +202,21 @@ def xls_io():
 #xls_io()
 
 
-def red_rd_list():
+def edt_rd_list():
+    try:
+        cursor2 = conn2.cursor()
+        str_q = "SELECT * FROM AllGuimFull"
+        #str_q = "SELECT naim, idnum, invnum FROM RDList"
+        mysel = cursor2.execute(str_q)
+        row = cursor2.fetchone()
+        if row:
+            print(row)
+
+
+    except sqlite3.DatabaseError as err:
+        print("Error: ", err)
+    else:
+        conn2.close()
 
     return
 
