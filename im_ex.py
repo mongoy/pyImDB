@@ -1,6 +1,7 @@
 import sqlite3
 import pyodbc
 import csv
+from xlsxwriter.workbook import Workbook
 
 # подключение к MSSQL
 server = 'BUDA\\SQLEXPRESS'
@@ -181,4 +182,27 @@ def sum_fin_list():
     return
 
 
-sum_fin_list()
+# sum_fin_list()
+
+
+def xls_io():
+    workbook = Workbook('output2.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    conn = sqlite3.connect('db.sqlite3')
+    c = conn.cursor()
+    mysel = c.execute("select * from RDList")
+    for i, row in enumerate(mysel):
+        for j, value in enumerate(row):
+            worksheet.write(i, j, row[j])
+    workbook.close()
+    return
+
+
+#xls_io()
+
+
+def red_rd_list():
+
+    return
+

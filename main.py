@@ -22,7 +22,7 @@ class MainW(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.label.setText("Всего дорог: " + str(self.db_sqlite(self.q_road[0])))
-        self.ui.label_2.setText("Протяженность (км): " + str(self.db_sqlite(self.q_road[0])))
+        self.ui.label_2.setText("Протяженность (км): " + str(self.db_sqlite(self.q_road[1])))
 
     def db_sqlite(self, y):
         # Создаем соединение с нашей базой данных
@@ -34,7 +34,8 @@ class MainW(QtWidgets.QMainWindow):
         cursor.execute(str(y))
         # Получаем результат сделанного запроса
         (results,) = cursor.fetchone()
-        print(type(results))
+
+        #print(type(results))
         # Не забываем закрыть соединение с базой данных
         conn.close()
         return results
