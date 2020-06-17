@@ -11,11 +11,10 @@ from main_window import Ui_MainWindow
 
 
 class MainW(QtWidgets.QMainWindow):
-    # q_road = ("SELECT count(DISTINCT nroad) as croad FROM main_road",\
-    #           "SELECT sum(lroad) AS sroad FROM main_road")
-
-    q_road = ("SELECT count(DISTINCT naim) as croad FROM RDList",\
-              "SELECT SUM(prot) AS sroad, SUM(bals) AS sum_bal, SUM(osts) AS sum_ost FROM RDList")
+    q_road = ("SELECT count(DISTINCT nroad) as croad FROM main_road",
+              "SELECT sum(lroad) AS sroad FROM main_road")
+    # q_road = ("SELECT count(DISTINCT naim) as croad FROM RDList",
+    #          "SELECT SUM(prot) AS sroad, SUM(bals) AS sum_bal, SUM(osts) AS sum_ost FROM RDList")
 
     def __init__(self):
         super(MainW, self).__init__()
@@ -35,7 +34,7 @@ class MainW(QtWidgets.QMainWindow):
         # Получаем результат сделанного запроса
         (results,) = cursor.fetchone()
 
-        #print(type(results))
+        # print(type(results))
         # Не забываем закрыть соединение с базой данных
         conn.close()
         return results
@@ -46,24 +45,21 @@ class MainW(QtWidgets.QMainWindow):
         # server = 'myserver,port' # to specify an alternate port
         server = 'BUDA\SQLEXPRESS'
         database = 'LISTIM2015'
-        username = 'sa'
+        user_name = 'sa'
         password = 'IwB1966Y'
-        con_str = 'DRIVER={SQL Server Native Client 11.0}; SERVER=' + server + ';DATABASE=' + database + ';UID=' + username + ';PWD=' + password
+        con_str = 'DRIVER={SQL Server Native Client 11.0};SERVER=' + server + ';DATABASE='
+        con_str += database + ';UID=' + user_name + ';PWD=' + password
         cnxn = pyodbc.connect(con_str)
         cursor = cnxn.cursor()
-        #cursor.execute(str(y))
-        #print('sql')
+        # cursor.execute(str(y))
+        # print('sql')
         return 0
 
 
-
-
-#print(stat_mssql())
-
-
+# print(stat_mssql())
 # точка входа
 if __name__ == '__main__':
-    # Создание окна Запускается основной цикл
+    # Создание окна. Запускается основной цикл
     app = QtWidgets.QApplication(sys.argv)
     application = MainW()
     application.show()
